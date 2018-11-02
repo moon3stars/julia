@@ -4,7 +4,9 @@ Julia v1.1.0 Release Notes
 New language features
 ---------------------
 
-  * An *exception stack* is maintained on each task to make exception handling more robust and enable root cause analysis using `catch_stack` ([#28878]).
+  * An *exception stack* is maintained on each task to make exception handling
+    more robust and enable root cause analysis using `current_exceptions`
+    ([#28878]).
   * The experimental macro `Base.@locals` returns a dictionary of current local variable names
     and values ([#29733]).
 

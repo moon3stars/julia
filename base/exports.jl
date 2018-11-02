@@ -682,7 +682,7 @@ export
 # errors
     backtrace,
     catch_backtrace,
-    catch_stack,
+    current_exceptions,
     error,
     rethrow,
     retry,
