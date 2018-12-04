@@ -102,20 +102,20 @@ Get the stack of exceptions currently being handled. For nested catch blocks
 there may be more than one current exception in which case the most recently
 thrown exception is last in the stack. The stack is returned as an
 `ExceptionStack` which is an AbstractVector of named tuples
-`(exception,backtrace)`. If `include_bt` is false, the backtrace in each pair
+`(exception,backtrace)`. If `backtrace` is false, the backtrace in each pair
 will be set to `nothing`.
 
 Explicitly passing `task` will return the current exception stack on an
 arbitrary task. This is useful for inspecting tasks which have failed due to
 uncaught exceptions.
 """
-function current_exceptions(task=current_task(); include_bt=true)
-    raw = ccall(:jl_get_excstack, Any, (Any,Cint,Cint), task, include_bt, typemax(Cint))
+function current_exceptions(task=current_task(); backtrace=true)
+    raw = ccall(:jl_get_excstack, Any, (Any,Cint,Cint), task, backtrace, typemax(Cint))
     formatted = Any[]
-    stride = include_bt ? 3 : 1
+    stride = backtrace ? 3 : 1
     for i = reverse(1:stride:length(raw))
         exc = raw[i]
-        bt = include_bt ? Base._reformat_bt(raw[i+1],raw[i+2]) : nothing
+        bt = backtrace ? Base._reformat_bt(raw[i+1],raw[i+2]) : nothing
         push!(formatted, (exception=exc,backtrace=bt))
     end
     ExceptionStack(formatted)
